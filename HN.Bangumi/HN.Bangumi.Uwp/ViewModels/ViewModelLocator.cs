@@ -1,6 +1,6 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extras.CommonServiceLocator;
+using CommonServiceLocator;
 
 namespace HN.Bangumi.Uwp.ViewModels
 {
@@ -8,9 +8,15 @@ namespace HN.Bangumi.Uwp.ViewModels
     {
         static ViewModelLocator()
         {
-            AutofacServiceLocator serviceLocator = new AutofacServiceLocator(new ContainerBuilder().Build());
+            var serviceLocator = new AutofacServiceLocator(ConfigureAutofacContainer());
+            ServiceLocator.SetLocatorProvider(() => serviceLocator);
+        }
 
-            throw new NotImplementedException();
+        private static IContainer ConfigureAutofacContainer()
+        {
+            var containerBuilder = new ContainerBuilder();
+
+            return containerBuilder.Build();
         }
     }
 }

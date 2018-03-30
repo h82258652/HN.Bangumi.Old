@@ -1,6 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿using Newtonsoft.Json;
 
 namespace HN.Bangumi.Uwp.Models
 {
@@ -20,8 +18,7 @@ namespace HN.Bangumi.Uwp.Models
         public int VolStatus { get; set; }
 
         [JsonProperty("lasttouch")]
-        [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime LastTouch { get; set; }
+        public int LastTouch { get; set; }
 
         [JsonProperty("subject")]
         public Subject Subject { get; set; }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HN.Bangumi.Models;
+using Newtonsoft.Json;
 
 namespace HN.Bangumi.Uwp.Models
 {
@@ -24,7 +25,7 @@ namespace HN.Bangumi.Uwp.Models
         public string Summary { get; set; }
 
         [JsonProperty("eps")]
-        public int Eps { get; set; }
+        public Ep[] Eps { get; set; }
 
         [JsonProperty("eps_count")]
         public int EpsCount { get; set; }
@@ -35,10 +36,18 @@ namespace HN.Bangumi.Uwp.Models
         [JsonProperty("air_weekday")]
         public int AirWeekday { get; set; }
 
+        [JsonProperty("rating")]
+        public Rating Rating { get; set; }
+
+        [JsonProperty("rank")]
+        public int Rank { get; set; }
+
         [JsonProperty("images")]
         public Images Images { get; set; }
 
         [JsonProperty("collection")]
         public CollectionItem Collection { get; set; }
+
+        public Crt crt { get; set; }
     }
 }

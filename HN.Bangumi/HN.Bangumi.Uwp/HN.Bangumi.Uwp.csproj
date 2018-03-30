@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\AppConfiguration.cs" />
     <Compile Include="Contants.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -115,6 +116,7 @@
     <Compile Include="Services\OAuthHandler.cs" />
     <Compile Include="Services\ProgressService.cs" />
     <Compile Include="Services\SearchService.cs" />
+    <Compile Include="Services\SubjectService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
   </ItemGroup>
@@ -159,7 +161,14 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controls\" />
     <Folder Include="Views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HN.Bangumi.Services\HN.Bangumi.Services.csproj">
+      <Project>{f6f64fef-7d46-43f3-9c92-8effc61fe2e7}</Project>
+      <Name>HN.Bangumi.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
