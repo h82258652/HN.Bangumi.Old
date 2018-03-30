@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HN.Bangumi.Uwp
+{
+    public static class Constants
+    {
+        public const string AppId = "bgm1515abd9ed193565";
+
+        public const string AppSecret= "2b709137d48c1fb50895f2defd017cba";
+
+        public const string RedirectUri = "bgm.tv";
+    }
+}
