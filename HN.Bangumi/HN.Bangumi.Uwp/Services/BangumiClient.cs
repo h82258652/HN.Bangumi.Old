@@ -7,7 +7,7 @@ namespace HN.Bangumi.Uwp.Services
     {
         public BangumiClient() : base(new BangumiClientHandler())
         {
-            BaseAddress = new Uri("http://api.bgm.tv");
+            BaseAddress = new Uri(Constants.BangumiUrlBase);
         }
     }
 }
