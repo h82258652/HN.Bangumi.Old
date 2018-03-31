@@ -100,23 +100,12 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Avatar.cs" />
     <Compile Include="Models\Collection.cs" />
-    <Compile Include="Models\CollectionItem.cs" />
-    <Compile Include="Models\Enum\ResponseGroup.cs" />
     <Compile Include="Models\Enum\SubjectType.cs" />
-    <Compile Include="Models\ErrorResult.cs" />
-    <Compile Include="Models\Images.cs" />
-    <Compile Include="Models\Subject.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\BangumiClient.cs" />
-    <Compile Include="Services\BangumiClientHandler.cs" />
-    <Compile Include="Services\BangumiException.cs" />
     <Compile Include="Services\OAuthHandler.cs" />
     <Compile Include="Services\ProgressService.cs" />
     <Compile Include="Services\SearchService.cs" />
-    <Compile Include="Services\SubjectService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
   </ItemGroup>

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace HN.Bangumi.Uwp.Models
+namespace HN.Bangumi.Models
 {
     [JsonObject]
     public class User

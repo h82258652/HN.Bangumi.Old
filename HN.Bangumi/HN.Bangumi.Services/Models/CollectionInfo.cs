@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 
-namespace HN.Bangumi.Uwp.Models
+namespace HN.Bangumi.Models
 {
     [JsonObject]
-    public class CollectionItem
+    public class CollectionInfo
     {
         [JsonProperty("wish")]
         public int Wish { get; set; }

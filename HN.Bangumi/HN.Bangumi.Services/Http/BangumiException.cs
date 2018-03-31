@@ -1,7 +1,7 @@
 ﻿using System;
-using HN.Bangumi.Uwp.Models;
+using HN.Bangumi.Models;
 
-namespace HN.Bangumi.Uwp.Services
+namespace HN.Bangumi.Http
 {
     public class BangumiException : Exception
     {
@@ -16,5 +16,7 @@ namespace HN.Bangumi.Uwp.Services
 
             Result = errorResult;
         }
+
+        public override string Message => Result.Error;
     }
 }

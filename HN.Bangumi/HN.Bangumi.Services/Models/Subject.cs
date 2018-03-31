@@ -1,7 +1,7 @@
-﻿using HN.Bangumi.Models;
+﻿using HN.Bangumi.Json;
 using Newtonsoft.Json;
 
-namespace HN.Bangumi.Uwp.Models
+namespace HN.Bangumi.Models
 {
     [JsonObject]
     public class Subject
@@ -24,7 +24,11 @@ namespace HN.Bangumi.Uwp.Models
         [JsonProperty("summary")]
         public string Summary { get; set; }
 
+        /// <summary>
+        /// 章节信息
+        /// </summary>
         [JsonProperty("eps")]
+        [JsonConverter(typeof(TryParseConverter))]
         public Ep[] Eps { get; set; }
 
         [JsonProperty("eps_count")]
@@ -45,9 +49,34 @@ namespace HN.Bangumi.Uwp.Models
         [JsonProperty("images")]
         public Images Images { get; set; }
 
+        /// <summary>
+        /// 收藏信息
+        /// </summary>
         [JsonProperty("collection")]
-        public CollectionItem Collection { get; set; }
+        public CollectionInfo Collection { get; set; }
 
-        public Crt crt { get; set; }
+        /// <summary>
+        /// 角色信息
+        /// </summary>
+        [JsonProperty("crt")]
+        public Character[] Characters { get; set; }
+
+        /// <summary>
+        /// 制作人员信息
+        /// </summary>
+        [JsonProperty("staff")]
+        public Staff[] Staff { get; set; }
+
+        /// <summary>
+        /// 讨论版
+        /// </summary>
+        [JsonProperty("topic")]
+        public Topic[] Topic { get; set; }
+
+        /// <summary>
+        /// 评论日志
+        /// </summary>
+        [JsonProperty("blog")]
+        public Blog[] Blog { get; set; }
     }
 }

@@ -1,14 +1,22 @@
 ﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using HN.Bangumi.Uwp.Models;
+using HN.Bangumi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace HN.Bangumi.Uwp.Services
+namespace HN.Bangumi.Http
 {
-    public class BangumiClientHandler : HttpClientHandler
+    public class BangumiClientHandler : DelegatingHandler
     {
+        public BangumiClientHandler() : base(new HttpClientHandler())
+        {
+        }
+
+        public BangumiClientHandler(HttpMessageHandler innerHandler) : base(innerHandler)
+        {
+        }
+
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var response = await base.SendAsync(request, cancellationToken);

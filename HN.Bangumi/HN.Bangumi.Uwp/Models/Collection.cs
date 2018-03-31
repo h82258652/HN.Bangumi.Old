@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HN.Bangumi.Models;
+using Newtonsoft.Json;
 
 namespace HN.Bangumi.Uwp.Models
 {

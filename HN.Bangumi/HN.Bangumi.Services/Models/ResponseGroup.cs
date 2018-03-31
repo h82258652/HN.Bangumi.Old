@@ -1,4 +1,4 @@
-﻿namespace HN.Bangumi.Uwp.Models.Enum
+﻿namespace HN.Bangumi.Models
 {
     public enum ResponseGroup
     {
