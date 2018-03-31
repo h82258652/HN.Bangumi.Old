@@ -3,12 +3,25 @@ using System.Net;
 using System.Threading.Tasks;
 using HN.Bangumi.Http;
 using HN.Bangumi.Models;
+using HN.Bangumi.OAuth;
 using Newtonsoft.Json;
 
 namespace HN.Bangumi.Services
 {
     public class UserService
     {
+        private readonly IOAuthProvider _oauthProvider;
+
+        public UserService(IOAuthProvider oauthProvider)
+        {
+            if (oauthProvider == null)
+            {
+                throw new ArgumentNullException(nameof(oauthProvider));
+            }
+
+            _oauthProvider = oauthProvider;
+        }
+
         /// <summary>
         /// 返回用户基础信息
         /// </summary>
@@ -41,6 +54,39 @@ namespace HN.Bangumi.Services
             {
                 var json = await client.GetStringAsync(url);
                 return JsonConvert.DeserializeObject<User>(json);
+            }
+        }
+
+        public async Task<Progress[]> GetProgress(string username, int? subjectId = null)
+        {
+            if (username == null)
+            {
+                throw new ArgumentNullException(nameof(username));
+            }
+
+            var url = $"/user/{WebUtility.UrlEncode(username)}/progress";
+            if (subjectId.HasValue)
+            {
+                url += $"?subject_id={subjectId}";
+            }
+            using (var client = new BangumiClient(_oauthProvider))
+            {
+                var json = await client.GetStringAsync(url);
+                return JsonConvert.DeserializeObject<Progress[]>(json);
+            }
+        }
+
+        public async Task<Progress[]> GetProgress(int uid, int? subjectId = null)
+        {
+            var url = $"/user/{uid}/progress";
+            if (subjectId.HasValue)
+            {
+                url += $"?subject_id={subjectId}";
+            }
+            using (var client = new BangumiClient(_oauthProvider))
+            {
+                var json = await client.GetStringAsync(url);
+                return JsonConvert.DeserializeObject<Progress[]>(json);
             }
         }
     }

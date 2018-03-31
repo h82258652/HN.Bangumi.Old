@@ -25,7 +25,7 @@ namespace HN.Bangumi.Http
             if (token.Type == JTokenType.Object)
             {
                 var result = token.ToObject<ErrorResult>();
-                if (result.Code != 0)
+                if (result.Code != 0 && result.Code != 200)
                 {
                     throw new BangumiException(result);
                 }

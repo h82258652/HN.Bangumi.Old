@@ -1,0 +1,53 @@
+﻿<Page x:Class="HN.Bangumi.Uwp.Views.CalendarView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:models="using:HN.Bangumi.Models"
+      xmlns:converters="using:HN.Bangumi.Uwp.Converters"
+      xmlns:localControls="using:HN.Bangumi.Uwp.Controls"
+      x:Name="Root"
+      DataContext="{Binding Source={StaticResource Locator}, Path=Calendar}"
+      mc:Ignorable="d">
+    <FrameworkElement.Resources>
+        <ResourceDictionary>
+            <converters:ItemClickEventArgsConverter x:Key="ItemClickEventArgsConverter" />
+        </ResourceDictionary>
+    </FrameworkElement.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Pivot ItemsSource="{x:Bind Path=ViewModel.Calendars, Mode=OneWay}">
+            <Pivot.HeaderTemplate>
+                <DataTemplate x:DataType="models:Calendar">
+                    <TextBlock Text="{x:Bind Path=Weekday.Cn}" />
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="models:Calendar">
+                    <GridView IsItemClickEnabled="True"
+                              ItemsSource="{x:Bind Path=Items}"
+                              SelectionMode="None">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="ItemClick">
+                                <core:InvokeCommandAction Command="{Binding ElementName=Root, Path=DataContext.SubjectClickCommand}"
+                                                          InputConverter="{StaticResource ItemClickEventArgsConverter}" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:Subject">
+                                <localControls:CalendarSubjectControl></localControls:CalendarSubjectControl>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <controls:StaggeredPanel DesiredColumnWidth="200" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </GridView>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </Pivot>
+    </Grid>
+</Page>

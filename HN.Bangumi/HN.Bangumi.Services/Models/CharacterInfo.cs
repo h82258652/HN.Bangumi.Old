@@ -16,6 +16,7 @@ namespace HN.Bangumi.Models
         public string Gender { get; set; }
 
         [JsonProperty("alias")]
+        [JsonConverter(typeof(AliasConverter))]
         public Alias Alias { get; set; }
 
         [JsonProperty("source")]

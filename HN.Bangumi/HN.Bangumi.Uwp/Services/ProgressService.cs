@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using HN.Bangumi.Http;
 
 namespace HN.Bangumi.Uwp.Services
 {

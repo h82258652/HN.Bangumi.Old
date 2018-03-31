@@ -8,7 +8,7 @@ namespace HN.Bangumi.Services.Tests
         [Fact]
         public async Task TestGetByUsername()
         {
-            var userService = new UserService();
+            var userService = new UserService(new TestOAuthProvider());
             var user = await userService.Get("h82258652");
             Assert.Equal("h82258652", user.Username);
         }
@@ -16,9 +16,25 @@ namespace HN.Bangumi.Services.Tests
         [Fact]
         public async Task TestGetByUid()
         {
-            var userService = new UserService();
+            var userService = new UserService(new TestOAuthProvider());
             var user = await userService.Get(200242);
             Assert.Equal(200242, user.Id);
+        }
+
+        [Fact]
+        public async Task TestGetProgressByUsername()
+        {
+            var userService = new UserService(new TestOAuthProvider());
+            var progress = await userService.GetProgress("h82258652");
+            Assert.NotNull(progress);
+        }
+
+        [Fact]
+        public async Task TestGetProgressByUid()
+        {
+            var userService = new UserService(new TestOAuthProvider());
+            var progress = await userService.GetProgress(200242);
+            Assert.NotNull(progress);
         }
     }
 }

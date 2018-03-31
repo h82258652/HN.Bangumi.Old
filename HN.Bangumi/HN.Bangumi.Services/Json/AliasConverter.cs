@@ -1,9 +1,10 @@
 ﻿using System;
+using HN.Bangumi.Models;
 using Newtonsoft.Json;
 
 namespace HN.Bangumi.Json
 {
-    public class SingleItemArrayConverter : JsonConverter
+    public class AliasConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
@@ -18,11 +19,11 @@ namespace HN.Bangumi.Json
             }
             catch (JsonSerializationException)
             {
-                var elementType = objectType.GetElementType();
-                var element = serializer.Deserialize(reader, elementType);
-                var array = Array.CreateInstance(elementType, 1);
-                array.SetValue(element, 0);
-                return array;
+                var alias = serializer.Deserialize<string[]>(reader);
+                return new Alias()
+                {
+                    Kana = alias[0]
+                };
             }
         }
 

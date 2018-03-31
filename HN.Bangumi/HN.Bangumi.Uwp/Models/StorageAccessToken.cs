@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HN.Bangumi.Uwp.Configuration
+namespace HN.Bangumi.Uwp.Models
 {
-    public class AppConfiguration
+    public class StorageAccessToken
     {
     }
 }

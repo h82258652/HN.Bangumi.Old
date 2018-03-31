@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HN.Bangumi.Json;
+using Newtonsoft.Json;
 
 namespace HN.Bangumi.Models
 {
@@ -6,6 +7,7 @@ namespace HN.Bangumi.Models
     public class StaffInfo
     {
         [JsonProperty("alias")]
+        [JsonConverter(typeof(AliasConverter))]
         public Alias Alias { get; set; }
     }
 }
