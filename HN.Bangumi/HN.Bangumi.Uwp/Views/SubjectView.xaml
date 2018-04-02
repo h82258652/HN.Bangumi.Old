@@ -1,31 +1,54 @@
 ﻿<Page x:Class="HN.Bangumi.Uwp.Views.SubjectView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:HN.Bangumi.Uwp.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:models="using:HN.Bangumi.Models"
-      xmlns:controls="using:HN.Bangumi.Uwp.Controls"
       DataContext="{Binding Source={StaticResource Locator}, Path=Subject}"
       mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer>
             <StackPanel Orientation="Vertical">
                 <Grid>
-                    <Image Source="{x:Bind Path=ViewModel.Subject.Images.Large, Mode=OneWay}"
-                           Stretch="None" />
+                    <Image MaxHeight="300"
+                           Source="{Binding Path=Subject.Images.Large}"
+                           Stretch="UniformToFill" />
                     <TextBlock VerticalAlignment="Bottom"
-                               Text="{x:Bind Path=ViewModel.Subject.ChineseName}"
+                               Foreground="White"
+                               Text="{Binding Path=Subject.ChineseName}"
                                TextWrapping="Wrap" />
                 </Grid>
-                <TextBlock Text="{x:Bind Path=ViewModel.Subject.Summary, Mode=OneWay}"
-                           TextWrapping="Wrap" />
-                <GridView ItemsSource="{x:Bind Path=ViewModel.Subject.Characters, Mode=OneWay}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="models:Character">
-                            <controls:CharacterControl />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </GridView>
+                <Pivot>
+                    <PivotItem Header="作品信息">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Path=Subject.Summary}"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+                    </PivotItem>
+                    <PivotItem Header="章节">
+                        <GridView ItemsSource="{Binding Path=Subject.Eps}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="models:Ep">
+                                    <Button Content="{Binding Path=Sort}">
+                                        <Button.Flyout>
+                                            <DatePickerFlyout />
+                                        </Button.Flyout>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </GridView>
+                    </PivotItem>
+                    <PivotItem Header="角色">
+                        <GridView ItemsSource="{Binding Path=Subject.Characters}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="models:Character">
+                                    <controls:CharacterControl />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </GridView>
+                    </PivotItem>
+                </Pivot>
                 <TextBlock x:Name="ForTest"
                            TextWrapping="Wrap" />
             </StackPanel>

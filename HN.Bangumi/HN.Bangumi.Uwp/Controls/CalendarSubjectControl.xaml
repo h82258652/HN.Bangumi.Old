@@ -10,8 +10,7 @@
              d:DesignWidth="400"
              mc:Ignorable="d">
     <Grid>
-        <controls:ImageEx IsCacheEnabled="True"
-                          Source="{Binding Path=Images.Large}" />
+        <Image Source="{Binding Path=Images.Large}" />
         <Border VerticalAlignment="Bottom">
             <Border.Background>
                 <AcrylicBrush BackgroundSource="Backdrop"

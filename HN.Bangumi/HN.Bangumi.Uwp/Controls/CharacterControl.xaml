@@ -13,12 +13,15 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <controls:DropShadowPanel Grid.Column="0"
-                                  OffsetY="0"
+                                  BlurRadius="2"
                                   OffsetX="0"
-                                  BlurRadius="2">
-            <controls:ImageEx IsCacheEnabled="True"
-                              CornerRadius="30"
-                              Source="{Binding Path=Images.Grid}" />
+                                  OffsetY="0">
+            <Rectangle RadiusX="5"
+                       RadiusY="5">
+                <Shape.Fill>
+                    <ImageBrush ImageSource="{Binding Path=Images.Grid}" />
+                </Shape.Fill>
+            </Rectangle>
         </controls:DropShadowPanel>
         <StackPanel Grid.Column="1"
                     Orientation="Vertical">

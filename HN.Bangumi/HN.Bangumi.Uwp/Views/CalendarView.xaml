@@ -18,16 +18,16 @@
         </ResourceDictionary>
     </FrameworkElement.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot ItemsSource="{x:Bind Path=ViewModel.Calendars, Mode=OneWay}">
+        <Pivot ItemsSource="{Binding Path=Calendars}">
             <Pivot.HeaderTemplate>
                 <DataTemplate x:DataType="models:Calendar">
-                    <TextBlock Text="{x:Bind Path=Weekday.Cn}" />
+                    <TextBlock Text="{Binding Path=Weekday.Cn}" />
                 </DataTemplate>
             </Pivot.HeaderTemplate>
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="models:Calendar">
                     <GridView IsItemClickEnabled="True"
-                              ItemsSource="{x:Bind Path=Items}"
+                              ItemsSource="{Binding Path=Items}"
                               SelectionMode="None">
                         <interactivity:Interaction.Behaviors>
                             <core:EventTriggerBehavior EventName="ItemClick">
