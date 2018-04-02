@@ -16,7 +16,9 @@
                                   BlurRadius="2"
                                   OffsetX="0"
                                   OffsetY="0">
-            <Rectangle RadiusX="5"
+            <Rectangle Width="75"
+                       Height="75"
+                       RadiusX="5"
                        RadiusY="5">
                 <Shape.Fill>
                     <ImageBrush ImageSource="{Binding Path=Images.Grid}" />
