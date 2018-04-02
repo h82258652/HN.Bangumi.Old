@@ -108,7 +108,6 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Collection.cs" />
-    <Compile Include="Models\Enum\SubjectType.cs" />
     <Compile Include="Models\StorageAccessToken.cs" />
     <Compile Include="OAuth\AccessTokenManager.cs" />
     <Compile Include="OAuth\AuthorizationException.cs" />
