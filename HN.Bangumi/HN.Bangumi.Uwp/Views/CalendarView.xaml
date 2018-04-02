@@ -7,16 +7,10 @@
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:models="using:HN.Bangumi.Models"
-      xmlns:converters="using:HN.Bangumi.Uwp.Converters"
       xmlns:localControls="using:HN.Bangumi.Uwp.Controls"
       x:Name="Root"
       DataContext="{Binding Source={StaticResource Locator}, Path=Calendar}"
       mc:Ignorable="d">
-    <FrameworkElement.Resources>
-        <ResourceDictionary>
-            <converters:ItemClickEventArgsConverter x:Key="ItemClickEventArgsConverter" />
-        </ResourceDictionary>
-    </FrameworkElement.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Pivot ItemsSource="{Binding Path=Calendars}">
             <Pivot.HeaderTemplate>

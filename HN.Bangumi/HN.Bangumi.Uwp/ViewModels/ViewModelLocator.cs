@@ -3,6 +3,7 @@ using Autofac.Extras.CommonServiceLocator;
 using CommonServiceLocator;
 using GalaSoft.MvvmLight.Views;
 using HN.Bangumi.Services;
+using HN.Bangumi.Uwp.Configuration;
 using HN.Bangumi.Uwp.Views;
 
 namespace HN.Bangumi.Uwp.ViewModels
@@ -24,6 +25,8 @@ namespace HN.Bangumi.Uwp.ViewModels
         private static IContainer ConfigureAutofacContainer()
         {
             var containerBuilder = new ContainerBuilder();
+
+            containerBuilder.RegisterType<AppSettings>();
 
             containerBuilder.RegisterInstance(CreateNavigationService());
             containerBuilder.RegisterType<UserService>();

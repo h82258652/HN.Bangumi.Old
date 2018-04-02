@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HN.Bangumi.Models;
-
-namespace HN.Bangumi.Uwp.Configuration
+﻿namespace HN.Bangumi.Uwp.Configuration
 {
     public class AppSettings
     {

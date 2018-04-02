@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using HN.Bangumi.Models;
 using HN.Bangumi.Services;
 
@@ -12,6 +7,7 @@ namespace HN.Bangumi.Uwp.ViewModels
     public class SubjectViewModel : ViewModelBase
     {
         private readonly SubjectService _subjectService;
+        private Subject _subject;
 
         public SubjectViewModel(SubjectService subjectService)
         {
@@ -20,10 +16,8 @@ namespace HN.Bangumi.Uwp.ViewModels
 
         public Subject Subject
         {
-            get { return _subject; }
-            set { Set(ref _subject, value); }
+            get => _subject;
+            set => Set(ref _subject, value);
         }
-
-        private Subject _subject;
     }
 }

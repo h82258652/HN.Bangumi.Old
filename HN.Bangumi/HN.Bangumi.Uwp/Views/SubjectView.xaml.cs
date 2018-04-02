@@ -1,20 +1,19 @@
-﻿using Windows.UI.Xaml;
-using HN.Bangumi.Models;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+﻿using HN.Bangumi.Models;
 using HN.Bangumi.Services;
 using HN.Bangumi.Uwp.ViewModels;
 using Newtonsoft.Json;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Navigation;
 
 namespace HN.Bangumi.Uwp.Views
 {
-    public sealed partial class SubjectView : Page
+    public sealed partial class SubjectView
     {
         public SubjectViewModel ViewModel => (SubjectViewModel)DataContext;
 
         public SubjectView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

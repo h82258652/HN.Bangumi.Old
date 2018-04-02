@@ -5,13 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:models="using:HN.Bangumi.Models"
+      xmlns:chart="using:Telerik.UI.Xaml.Controls.Chart"
       DataContext="{Binding Source={StaticResource Locator}, Path=Subject}"
       mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer>
             <StackPanel Orientation="Vertical">
                 <Grid>
-                    <Image MaxHeight="300"
+                    <Image Height="300"
                            Source="{Binding Path=Subject.Images.Large}"
                            Stretch="UniformToFill" />
                     <TextBlock VerticalAlignment="Bottom"
@@ -27,12 +28,29 @@
                         </StackPanel>
                     </PivotItem>
                     <PivotItem Header="章节">
-                        <GridView ItemsSource="{Binding Path=Subject.Eps}">
+                        <GridView ItemsSource="{Binding Path=Subject.Eps}"
+                                  SelectionMode="None">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="models:Ep">
-                                    <Button Content="{Binding Path=Sort}">
+                                    <Button Content="{Binding Path=Sort}"
+                                            Style="{StaticResource EpButtonStyle}">
                                         <Button.Flyout>
-                                            <DatePickerFlyout />
+                                            <Flyout>
+                                                <Flyout.FlyoutPresenterStyle>
+                                                    <Style TargetType="FlyoutPresenter">
+                                                        <Setter Property="Background">
+                                                            <Setter.Value>
+                                                                <AcrylicBrush TintColor="White" TintOpacity="0.7" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Flyout.FlyoutPresenterStyle>
+                                                <Flyout.Content>
+                                                    <Grid>
+                                                        <TextBlock Text="{Binding Path=ChineseName}" />
+                                                    </Grid>
+                                                </Flyout.Content>
+                                            </Flyout>
                                         </Button.Flyout>
                                     </Button>
                                 </DataTemplate>
@@ -40,7 +58,8 @@
                         </GridView>
                     </PivotItem>
                     <PivotItem Header="角色">
-                        <GridView ItemsSource="{Binding Path=Subject.Characters}">
+                        <GridView ItemsSource="{Binding Path=Subject.Characters}"
+                                  SelectionMode="None">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="models:Character">
                                     <controls:CharacterControl />
@@ -48,6 +67,14 @@
                             </ItemsControl.ItemTemplate>
                         </GridView>
                     </PivotItem>
+                    <PivotItem Header="评分">
+                        <Grid>     <TextBlock Text="{Binding Path=Subject.Rating.Score}"></TextBlock>
+                            <chart:RadCartesianChart></chart:RadCartesianChart>
+                            </Grid>
+                   
+
+                    </PivotItem>
+                    <PivotItem Header="讨论"></PivotItem>
                 </Pivot>
                 <TextBlock x:Name="ForTest"
                            TextWrapping="Wrap" />
