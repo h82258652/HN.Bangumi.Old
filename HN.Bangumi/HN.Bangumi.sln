@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HN.Bangumi.Uwp", "HN.Bangumi.Uwp\HN.Bangumi.Uwp.csproj", "{ECDD2758-23C9-473D-8360-E701FD1BBE53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HN.Bangumi.Services.Tests", "HN.Bangumi.Services.Tests\HN.Bangumi.Services.Tests.csproj", "{F7FC361D-E97E-4AF5-AD22-CC6868C92F36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HN.Bangumi.Services.Tests", "HN.Bangumi.Services.Tests\HN.Bangumi.Services.Tests.csproj", "{F7FC361D-E97E-4AF5-AD22-CC6868C92F36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HN.Bangumi.Services", "HN.Bangumi.Services\HN.Bangumi.Services.csproj", "{F6F64FEF-7D46-43F3-9C92-8EFFC61FE2E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HN.Bangumi.Services", "HN.Bangumi.Services\HN.Bangumi.Services.csproj", "{F6F64FEF-7D46-43F3-9C92-8EFFC61FE2E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

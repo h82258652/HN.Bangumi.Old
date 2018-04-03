@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using HN.Bangumi.Services;
+using HN.Bangumi.Uwp.Configuration;
 using HN.Bangumi.Uwp.OAuth;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
@@ -33,7 +34,9 @@ namespace HN.Bangumi.Uwp
 
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            //            await new UserService(new UwpOAuthProvider()).GetProgress("h82258652");
+            new AppSettings().AccessTokenExpiresOn = DateTime.UtcNow;
+            var refreshToken = new AppSettings().RefreshToken;
+            var accessTokenExpiresOn = new AppSettings().AccessTokenExpiresOn;
         }
     }
 }

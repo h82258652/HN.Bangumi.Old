@@ -104,6 +104,7 @@
       <DependentUpon>CharacterControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\ItemClickEventArgsConverter.cs" />
+    <Compile Include="Http\GetMethodCacheHandler.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -115,6 +116,7 @@
     <Compile Include="OAuth\UserCancelAuthorizeException.cs" />
     <Compile Include="OAuth\UwpOAuthProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AccessTokenRepository.cs" />
     <Compile Include="Services\OAuthHandler.cs" />
     <Compile Include="Services\ProgressService.cs" />
     <Compile Include="Services\UserService.cs" />
@@ -188,9 +190,6 @@
     <PackageReference Include="Autofac.Extras.CommonServiceLocator">
       <Version>5.0.0</Version>
     </PackageReference>
-    <PackageReference Include="AutoMapper">
-      <Version>6.2.2</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.8</Version>
     </PackageReference>
@@ -213,9 +212,7 @@
       <Version>1.0.0.9</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AutoMapper\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\HN.Bangumi.Services\HN.Bangumi.Services.csproj">
       <Project>{f6f64fef-7d46-43f3-9c92-8effc61fe2e7}</Project>

@@ -9,6 +9,7 @@ using Windows.Security.Credentials;
 using Windows.Storage;
 using HN.Bangumi.Models;
 using HN.Bangumi.OAuth;
+using HN.Bangumi.Uwp.Configuration;
 using Newtonsoft.Json;
 
 namespace HN.Bangumi.Uwp.OAuth
@@ -105,25 +106,67 @@ namespace HN.Bangumi.Uwp.OAuth
             }
         }
 
+        private readonly AppSettings _appSettings;
+
+        public UwpOAuthProvider(AppSettings appSettings)
+        {
+            _appSettings = appSettings;
+        }
+
         public async Task<string> GetAccessToken()
         {
-            var accessToken = await GetStorageAccessToken();
-            if (accessToken != null)
+            var accessTokenExpiresOn = _appSettings.AccessTokenExpiresOn;
+            if (accessTokenExpiresOn == null)
             {
+                var authorizeCode = await GetAuthorizeCode();
+                var accessToken = await GetAccessToken(authorizeCode);
+
+                var passwordVault = new PasswordVault();
+                passwordVault.Add(new PasswordCredential("BangumiAccessToken", "access_token", accessToken.Value));
+                passwordVault.Add(new PasswordCredential("BangumiAccessToken", "refresh_token", accessToken.RefreshToken));
+                passwordVault.Add(new PasswordCredential("BangumiAccessToken", "user_id", accessToken.UserId.ToString()));
+                _appSettings.AccessTokenExpiresOn = DateTimeOffset.UtcNow.AddSeconds(accessToken.ExpiresIn).AddMinutes(-5);
+
                 return accessToken.Value;
             }
-
-            // main
-            var authenticateUrl = $"https://bgm.tv/oauth/authorize?client_id={Constants.AppId}&response_type=code&redirect_uri={WebUtility.UrlEncode(Constants.RedirectUri)}";
-            var authenticationResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, new Uri(authenticateUrl), new Uri(Constants.RedirectUri));
-            if (authenticationResult.ResponseStatus == WebAuthenticationStatus.Success)
+            else
             {
-                var responseUrl = authenticationResult.ResponseData;
-                var responseUrlDecoder = new WwwFormUrlDecoder(new Uri(responseUrl).Query);
-                var code = responseUrlDecoder.GetFirstValueByName("code");
+                if (accessTokenExpiresOn.Value < DateTimeOffset.UtcNow)
+                {
+                    var passwordVault = new PasswordVault();
+                    return passwordVault.Retrieve("BangumiAccessToken", "access_token").Password;
+                }
+                else
+                {
+                    // shuaxin
 
-                await GetAccessToken(code);
+                    var passwordVault = new PasswordVault();
+
+                    var refreshToken = passwordVault.Retrieve("BangumiAccessToken", "refresh_token").Password;
+                    var accessToken = await RefreshAccessToken(refreshToken);
+                    passwordVault.Add(new PasswordCredential("BangumiAccessToken", "access_token", accessToken.Value));
+                    passwordVault.Add(new PasswordCredential("BangumiAccessToken", "refresh_token", accessToken.RefreshToken));
+                    passwordVault.Add(new PasswordCredential("BangumiAccessToken", "user_id", accessToken.UserId.ToString()));
+                }
             }
+
+            //var accessToken = await GetStorageAccessToken();
+            //if (accessToken != null)
+            //{
+            //    return accessToken.Value;
+            //}
+
+            //// main
+            //var authenticateUrl = $"https://bgm.tv/oauth/authorize?client_id={Constants.AppId}&response_type=code&redirect_uri={WebUtility.UrlEncode(Constants.RedirectUri)}";
+            //var authenticationResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, new Uri(authenticateUrl), new Uri(Constants.RedirectUri));
+            //if (authenticationResult.ResponseStatus == WebAuthenticationStatus.Success)
+            //{
+            //    var responseUrl = authenticationResult.ResponseData;
+            //    var responseUrlDecoder = new WwwFormUrlDecoder(new Uri(responseUrl).Query);
+            //    var code = responseUrlDecoder.GetFirstValueByName("code");
+
+            //    await GetAccessToken(code);
+            //}
 
             throw new NotImplementedException();
         }
