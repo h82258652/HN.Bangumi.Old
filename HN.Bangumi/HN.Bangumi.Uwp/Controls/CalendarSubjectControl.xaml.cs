@@ -1,4 +1,7 @@
-﻿namespace HN.Bangumi.Uwp.Controls
+﻿using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Shapes;
+
+namespace HN.Bangumi.Uwp.Controls
 {
     public sealed partial class CalendarSubjectControl
     {

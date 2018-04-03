@@ -31,7 +31,7 @@
                         </interactivity:Interaction.Behaviors>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="models:Subject">
-                                <localControls:CalendarSubjectControl></localControls:CalendarSubjectControl>
+                                <localControls:CalendarSubjectControl />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemsPanel>

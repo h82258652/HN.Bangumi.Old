@@ -9,13 +9,13 @@ namespace HN.Bangumi.Models
         /// 想做
         /// </summary>
         [JsonProperty("wish")]
-        public int Wish { get; set; }
+        public int? Wish { get; set; }
 
         /// <summary>
         /// 做过
         /// </summary>
         [JsonProperty("collect")]
-        public int Collect { get; set; }
+        public int? Collect { get; set; }
 
         /// <summary>
         /// 在做
@@ -27,12 +27,12 @@ namespace HN.Bangumi.Models
         /// 搁置
         /// </summary>
         [JsonProperty("on_hold")]
-        public int OnHold { get; set; }
+        public int? OnHold { get; set; }
 
         /// <summary>
         /// 抛弃
         /// </summary>
         [JsonProperty("dropped")]
-        public int Dropped { get; set; }
+        public int? Dropped { get; set; }
     }
 }

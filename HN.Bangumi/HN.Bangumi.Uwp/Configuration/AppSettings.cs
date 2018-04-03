@@ -32,6 +32,23 @@ namespace HN.Bangumi.Uwp.Configuration
             }
         }
 
+        public int? UserId
+        {
+            get
+            {
+                var passwordVault = new PasswordVault();
+                var userId = passwordVault.RetrieveAll()
+                    .FirstOrDefault(temp => temp.Resource == Constants.BangumiAccessTokenResourceKey && temp.UserName == "user_id")
+                    ?.Password;
+                int value;
+                if (int.TryParse(userId, out value))
+                {
+                    return value;
+                }
+                return null;
+            }
+        }
+
         public void ClearAccessToken()
         {
             var passwordVault = new PasswordVault();

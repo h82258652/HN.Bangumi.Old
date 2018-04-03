@@ -1,24 +1,50 @@
 ﻿<Page x:Class="HN.Bangumi.Uwp.Views.SubjectView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:controls="using:HN.Bangumi.Uwp.Controls"
+      xmlns:chart="using:Telerik.UI.Xaml.Controls.Chart"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:localControls="using:HN.Bangumi.Uwp.Controls"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:models="using:HN.Bangumi.Models"
-      xmlns:chart="using:Telerik.UI.Xaml.Controls.Chart"
       DataContext="{Binding Source={StaticResource Locator}, Path=Subject}"
       mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer>
             <StackPanel Orientation="Vertical">
                 <Grid>
-                    <Image Height="300"
-                           Source="{Binding Path=Subject.Images.Large}"
-                           Stretch="UniformToFill" />
-                    <TextBlock VerticalAlignment="Bottom"
-                               Foreground="White"
-                               Text="{Binding Path=Subject.ChineseName}"
-                               TextWrapping="Wrap" />
+                    <Border Height="300">
+                        <Border.Background>
+                            <AcrylicBrush BackgroundSource="HostBackdrop"
+                                          FallbackColor="Black"
+                                          TintColor="Black"
+                                          TintOpacity="0.5" />
+                        </Border.Background>
+                        <Image Source="{Binding Path=Subject.Images.Large}"
+                               Stretch="UniformToFill" />
+                    </Border>
+                    <StackPanel Padding="8,4,8,4"
+                                VerticalAlignment="Bottom"
+                                Orientation="Vertical">
+                        <controls:DropShadowPanel BlurRadius="1"
+                                                  OffsetX="0"
+                                                  OffsetY="0">
+                            <TextBlock FontSize="24"
+                                       Foreground="White"
+                                       Text="{Binding Path=Subject.ChineseName}"
+                                       TextWrapping="Wrap" />
+                        </controls:DropShadowPanel>
+                        <controls:DropShadowPanel BlurRadius="1"
+                                                  OffsetX="0"
+                                                  OffsetY="0">
+                            <TextBlock FontSize="16"
+                                       Foreground="White"
+                                       TextWrapping="Wrap"
+                                       Visibility="{Binding Path=Subject.Name, Converter={StaticResource InversedIsNullOrEmptyStringToVisibilityConverter}}"><Italic>
+                                    <Run Text="{Binding Path=Subject.Name}" />
+                                </Italic></TextBlock>
+                        </controls:DropShadowPanel>
+                    </StackPanel>
                 </Grid>
                 <Pivot>
                     <PivotItem Header="作品信息">
@@ -40,7 +66,8 @@
                                                     <Style TargetType="FlyoutPresenter">
                                                         <Setter Property="Background">
                                                             <Setter.Value>
-                                                                <AcrylicBrush TintColor="White" TintOpacity="0.7" />
+                                                                <AcrylicBrush TintColor="White"
+                                                                              TintOpacity="0.7" />
                                                             </Setter.Value>
                                                         </Setter>
                                                     </Style>
@@ -62,22 +89,22 @@
                                   SelectionMode="None">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="models:Character">
-                                    <controls:CharacterControl />
+                                    <localControls:CharacterControl />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </GridView>
                     </PivotItem>
                     <PivotItem Header="评分">
-                        <Grid>     <TextBlock Text="{Binding Path=Subject.Rating.Score}"></TextBlock>
-                            <chart:RadCartesianChart></chart:RadCartesianChart>
-                            </Grid>
-                   
-
+                        <Grid>
+                            <TextBlock Text="{Binding Path=Subject.Rating.Score}" />
+                            <chart:RadCartesianChart />
+                        </Grid>
                     </PivotItem>
-                    <PivotItem Header="讨论"></PivotItem>
+                    <PivotItem Header="讨论" />
                 </Pivot>
                 <TextBlock x:Name="ForTest"
-                           TextWrapping="Wrap" />
+                           TextWrapping="Wrap"
+                           Visibility="Collapsed" />
             </StackPanel>
         </ScrollViewer>
         <Button HorizontalAlignment="Center"

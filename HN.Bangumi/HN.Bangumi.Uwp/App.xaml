@@ -10,6 +10,8 @@
                 <ResourceDictionary Source="/Styles/EpButtonStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:ItemClickEventArgsConverter x:Key="ItemClickEventArgsConverter" />
+            <converters:IsNullOrEmptyStringToVisibilityConverter x:Key="InversedIsNullOrEmptyStringToVisibilityConverter"
+                                                                 IsInversed="True" />
             <viewModels:ViewModelLocator x:Key="Locator" />
         </ResourceDictionary>
     </Application.Resources>

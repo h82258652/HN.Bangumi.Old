@@ -89,5 +89,47 @@ namespace HN.Bangumi.Services
                 return JsonConvert.DeserializeObject<Progress[]>(json);
             }
         }
+
+        public async Task<UserCollection[]> GetCollection(string username, CollectionCategory category, ResponseGroup responseGroup = ResponseGroup.Medium)
+        {
+            if (username == null)
+            {
+                throw new ArgumentNullException(nameof(username));
+            }
+            if (!Enum.IsDefined(typeof(CollectionCategory), category))
+            {
+                throw new ArgumentOutOfRangeException(nameof(category));
+            }
+            if (!Enum.IsDefined(typeof(ResponseGroup), responseGroup))
+            {
+                throw new ArgumentOutOfRangeException(nameof(responseGroup));
+            }
+
+            var url = $"/user/{WebUtility.UrlEncode(username)}/collection?cat={(category == CollectionCategory.Watching ? "watching" : "all_watching")}&responseGroup={responseGroup.ToString().ToLowerInvariant()}";
+            using (var client = new BangumiClient())
+            {
+                var json = await client.GetStringAsync(url);
+                return JsonConvert.DeserializeObject<UserCollection[]>(json);
+            }
+        }
+
+        public async Task<UserCollection[]> GetCollection(int uid, CollectionCategory category, ResponseGroup responseGroup = ResponseGroup.Medium)
+        {
+            if (!Enum.IsDefined(typeof(CollectionCategory), category))
+            {
+                throw new ArgumentOutOfRangeException(nameof(category));
+            }
+            if (!Enum.IsDefined(typeof(ResponseGroup), responseGroup))
+            {
+                throw new ArgumentOutOfRangeException(nameof(responseGroup));
+            }
+
+            var url = $"/user/{uid}/collection?cat={(category == CollectionCategory.Watching ? "watching" : "all_watching")}&responseGroup={responseGroup.ToString().ToLowerInvariant()}";
+            using (var client = new BangumiClient())
+            {
+                var json = await client.GetStringAsync(url);
+                return JsonConvert.DeserializeObject<UserCollection[]>(json);
+            }
+        }
     }
 }

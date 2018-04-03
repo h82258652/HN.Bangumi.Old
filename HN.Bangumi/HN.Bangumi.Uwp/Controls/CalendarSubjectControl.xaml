@@ -6,21 +6,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="using:HN.Bangumi.Models"
              d:DataContext="{d:DesignInstance Type=models:Subject}"
-             d:DesignHeight="300"
-             d:DesignWidth="400"
              mc:Ignorable="d">
     <Grid>
-        <Image Source="{Binding Path=Images.Large}" />
-        <Border VerticalAlignment="Bottom">
-            <Border.Background>
-                <AcrylicBrush BackgroundSource="Backdrop"
-                              FallbackColor="#B3000000"
-                              TintColor="Black"
-                              TintOpacity="0.7" />
-            </Border.Background>
-            <TextBlock Foreground="White"
-                       Text="{Binding Path=ChineseName}"
-                       TextWrapping="Wrap" />
-        </Border>
+        <controls:DropShadowPanel BlurRadius="2"
+                                  OffsetX="0"
+                                  OffsetY="0">
+            <Grid>
+                <Image Source="{Binding Path=Images.Large}" />
+                <Border VerticalAlignment="Bottom">
+                    <Border.Background>
+                        <AcrylicBrush BackgroundSource="Backdrop"
+                                      FallbackColor="#B3000000"
+                                      TintColor="Black"
+                                      TintOpacity="0.5" />
+                    </Border.Background>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Margin="4,4,4,0"
+                                   FontSize="16"
+                                   Foreground="White"
+                                   Text="{Binding Path=ChineseName}"
+                                   TextWrapping="Wrap"
+                                   Visibility="{Binding Path=ChineseName, Converter={StaticResource InversedIsNullOrEmptyStringToVisibilityConverter}}" />
+                        <TextBlock Margin="4,2,4,4"
+                                   FontSize="15"
+                                   Foreground="White"
+                                   TextWrapping="Wrap"
+                                   Visibility="{Binding Path=Name, Converter={StaticResource InversedIsNullOrEmptyStringToVisibilityConverter}}"><Italic>
+                                <Run Text="{Binding Path=Name}" />
+                            </Italic></TextBlock>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </controls:DropShadowPanel>
     </Grid>
 </UserControl>
