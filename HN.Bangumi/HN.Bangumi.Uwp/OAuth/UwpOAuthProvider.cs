@@ -3,39 +3,52 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Security.Authentication.Web;
-using Windows.Security.Credentials;
-using Windows.Storage;
 using HN.Bangumi.Models;
 using HN.Bangumi.OAuth;
 using HN.Bangumi.Uwp.Configuration;
 using Newtonsoft.Json;
+using Windows.Foundation;
+using Windows.Security.Authentication.Web;
 
 namespace HN.Bangumi.Uwp.OAuth
 {
     public class UwpOAuthProvider : IOAuthProvider
     {
-        private async Task<string> GetAuthorizeCode()
+        private readonly AppSettings _appSettings;
+
+        public UwpOAuthProvider(AppSettings appSettings)
         {
-            var authenticateUrl = $"https://bgm.tv/oauth/authorize?client_id={Constants.AppId}&response_type=code&redirect_uri={WebUtility.UrlEncode(Constants.RedirectUri)}";
-            var authenticationResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, new Uri(authenticateUrl), new Uri(Constants.RedirectUri));
+            _appSettings = appSettings;
+        }
 
-            switch (authenticationResult.ResponseStatus)
+        public async Task<string> GetAccessToken()
+        {
+            var accessTokenExpiresOn = _appSettings.AccessTokenExpiresOn;
+            if (accessTokenExpiresOn == null)
             {
-                case WebAuthenticationStatus.Success:
-                    var responseUrl = authenticationResult.ResponseData;
-                    var responseUrlDecoder = new WwwFormUrlDecoder(new Uri(responseUrl).Query);
-                    var code = responseUrlDecoder.GetFirstValueByName("code");
-                    return code;
+                var authorizeCode = await GetAuthorizeCode();
+                var accessToken = await GetAccessToken(authorizeCode);
 
-                case WebAuthenticationStatus.UserCancel:
-                    throw new UserCancelAuthorizeException(authenticationResult);
+                _appSettings.SetAccessToken(accessToken);
 
-                case WebAuthenticationStatus.ErrorHttp:
-                    throw new AuthorizeErrorHttpException(authenticationResult);
+                return accessToken.Value;
             }
-            throw new AuthorizationException(authenticationResult);
+            else
+            {
+                if (accessTokenExpiresOn.Value < DateTimeOffset.UtcNow)
+                {
+                    return _appSettings.AccessToken;
+                }
+                else
+                {
+                    var refreshToken = _appSettings.RefreshToken;
+                    var accessToken = await RefreshAccessToken(refreshToken);
+
+                    _appSettings.SetAccessToken(accessToken);
+
+                    return accessToken.Value;
+                }
+            }
         }
 
         private async Task<AccessToken> GetAccessToken(string authorizeCode)
@@ -60,27 +73,28 @@ namespace HN.Bangumi.Uwp.OAuth
             }
         }
 
-        private async Task<AccessToken> GetStorageAccessToken()
+        private async Task<string> GetAuthorizeCode()
         {
-            var json = (string)ApplicationData.Current.LocalSettings.Values["AccessToken"];
-            if (json == null)
-            {
-                return null;
-            }
+            var authenticateUrl = $"https://bgm.tv/oauth/authorize?client_id={Constants.AppId}&response_type=code&redirect_uri={WebUtility.UrlEncode(Constants.RedirectUri)}";
+            var authenticationResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, new Uri(authenticateUrl), new Uri(Constants.RedirectUri));
 
-            var accessToken = JsonConvert.DeserializeObject<AccessToken>(json);
-            var expiresOn = (DateTime)ApplicationData.Current.LocalSettings.Values["AccessTokenExpiresOn"];
-            if (DateTime.Now <= expiresOn)
+            switch (authenticationResult.ResponseStatus)
             {
-                return accessToken;
-            }
+                case WebAuthenticationStatus.Success:
+                    var responseUrl = authenticationResult.ResponseData;
+                    var responseUrlDecoder = new WwwFormUrlDecoder(new Uri(responseUrl).Query);
+                    var code = responseUrlDecoder.GetFirstValueByName("code");
+                    return code;
 
-            var refreshToken = accessToken.RefreshToken;
-            if (refreshToken == null)
-            {
-                return null;
+                case WebAuthenticationStatus.UserCancel:
+                    throw new UserCancelAuthorizeException(authenticationResult);
+
+                case WebAuthenticationStatus.ErrorHttp:
+                    throw new AuthorizeErrorHttpException(authenticationResult);
+
+                default:
+                    throw new AuthorizationException(authenticationResult);
             }
-            return await RefreshAccessToken(refreshToken);
         }
 
         private async Task<AccessToken> RefreshAccessToken(string refreshToken)
@@ -104,71 +118,6 @@ namespace HN.Bangumi.Uwp.OAuth
                     return accessToken;
                 }
             }
-        }
-
-        private readonly AppSettings _appSettings;
-
-        public UwpOAuthProvider(AppSettings appSettings)
-        {
-            _appSettings = appSettings;
-        }
-
-        public async Task<string> GetAccessToken()
-        {
-            var accessTokenExpiresOn = _appSettings.AccessTokenExpiresOn;
-            if (accessTokenExpiresOn == null)
-            {
-                var authorizeCode = await GetAuthorizeCode();
-                var accessToken = await GetAccessToken(authorizeCode);
-
-                var passwordVault = new PasswordVault();
-                passwordVault.Add(new PasswordCredential("BangumiAccessToken", "access_token", accessToken.Value));
-                passwordVault.Add(new PasswordCredential("BangumiAccessToken", "refresh_token", accessToken.RefreshToken));
-                passwordVault.Add(new PasswordCredential("BangumiAccessToken", "user_id", accessToken.UserId.ToString()));
-                _appSettings.AccessTokenExpiresOn = DateTimeOffset.UtcNow.AddSeconds(accessToken.ExpiresIn).AddMinutes(-5);
-
-                return accessToken.Value;
-            }
-            else
-            {
-                if (accessTokenExpiresOn.Value < DateTimeOffset.UtcNow)
-                {
-                    var passwordVault = new PasswordVault();
-                    return passwordVault.Retrieve("BangumiAccessToken", "access_token").Password;
-                }
-                else
-                {
-                    // shuaxin
-
-                    var passwordVault = new PasswordVault();
-
-                    var refreshToken = passwordVault.Retrieve("BangumiAccessToken", "refresh_token").Password;
-                    var accessToken = await RefreshAccessToken(refreshToken);
-                    passwordVault.Add(new PasswordCredential("BangumiAccessToken", "access_token", accessToken.Value));
-                    passwordVault.Add(new PasswordCredential("BangumiAccessToken", "refresh_token", accessToken.RefreshToken));
-                    passwordVault.Add(new PasswordCredential("BangumiAccessToken", "user_id", accessToken.UserId.ToString()));
-                }
-            }
-
-            //var accessToken = await GetStorageAccessToken();
-            //if (accessToken != null)
-            //{
-            //    return accessToken.Value;
-            //}
-
-            //// main
-            //var authenticateUrl = $"https://bgm.tv/oauth/authorize?client_id={Constants.AppId}&response_type=code&redirect_uri={WebUtility.UrlEncode(Constants.RedirectUri)}";
-            //var authenticationResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, new Uri(authenticateUrl), new Uri(Constants.RedirectUri));
-            //if (authenticationResult.ResponseStatus == WebAuthenticationStatus.Success)
-            //{
-            //    var responseUrl = authenticationResult.ResponseData;
-            //    var responseUrlDecoder = new WwwFormUrlDecoder(new Uri(responseUrl).Query);
-            //    var code = responseUrlDecoder.GetFirstValueByName("code");
-
-            //    await GetAccessToken(code);
-            //}
-
-            throw new NotImplementedException();
         }
     }
 }
