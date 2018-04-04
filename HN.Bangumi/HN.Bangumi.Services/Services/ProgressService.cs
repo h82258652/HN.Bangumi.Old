@@ -39,5 +39,30 @@ namespace HN.Bangumi.Services
                 }
             }
         }
+
+        public async Task Update(int[] epId, EpStatus status)
+        {
+            if (epId == null)
+            {
+                throw new ArgumentNullException(nameof(epId));
+            }
+            if (epId.Length <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(status));
+            }
+            if (!Enum.IsDefined(typeof(EpStatus), status))
+            {
+                throw new ArgumentOutOfRangeException(nameof(status));
+            }
+
+            var url = $"/ep/{epId.Last()}/status/{status.ToString().ToLowerInvariant()}";
+            using (var client = new BangumiClient(_oauthProvider))
+            {
+                using (var postContent = new FormUrlEncodedContent(Enumerable.Empty<KeyValuePair<string, string>>()))
+                {
+                    await client.PostAsync(url, postContent);
+                }
+            }
+        }
     }
 }

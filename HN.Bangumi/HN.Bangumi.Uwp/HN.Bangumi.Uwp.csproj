@@ -115,10 +115,6 @@
     <Compile Include="OAuth\UserCancelAuthorizeException.cs" />
     <Compile Include="OAuth\UwpOAuthProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\AccessTokenRepository.cs" />
-    <Compile Include="Services\OAuthHandler.cs" />
-    <Compile Include="Services\ProgressService.cs" />
-    <Compile Include="Services\UserService.cs" />
     <Compile Include="ViewModels\CalendarViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
@@ -226,7 +222,10 @@
       <Version>1.0.0.9</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HN.Bangumi.Services\HN.Bangumi.Services.csproj">
       <Project>{f6f64fef-7d46-43f3-9c92-8effc61fe2e7}</Project>

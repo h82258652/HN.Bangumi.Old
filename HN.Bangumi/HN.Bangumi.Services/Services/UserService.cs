@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using HN.Bangumi.Http;
 using HN.Bangumi.Models;
@@ -151,6 +154,69 @@ namespace HN.Bangumi.Services
             {
                 var json = await client.GetStringAsync(url);
                 return JsonConvert.DeserializeObject<SubjectCollectionInfo>(json);
+            }
+        }
+
+        public async Task<SubjectCollectionInfo> UpdateSubjectCollection(int subjectId, CollectionStatus status, string comment = null, string[] tags = null, int? rating = null, bool? isPrivate = null)
+        {
+            if (!Enum.IsDefined(typeof(CollectionStatus), status))
+            {
+                throw new ArgumentOutOfRangeException(nameof(status));
+            }
+            if (rating.HasValue && (rating.Value < 0 || rating.Value > 10))
+            {
+                throw new ArgumentOutOfRangeException(nameof(rating));
+            }
+
+            var postData = new Dictionary<string, string>();
+            switch (status)
+            {
+                case CollectionStatus.Wish:
+                    postData["status"] = "wish";
+                    break;
+
+                case CollectionStatus.Collect:
+                    postData["status"] = "collect";
+                    break;
+
+                case CollectionStatus.Do:
+                    postData["status"] = "do";
+                    break;
+
+                case CollectionStatus.OnHold:
+                    postData["status"] = "on_hold";
+                    break;
+
+                case CollectionStatus.Dropped:
+                    postData["status"] = "dropped";
+                    break;
+            }
+            if (comment != null)
+            {
+                postData["comment"] = comment;
+            }
+            if (tags?.Any() == true)
+            {
+                postData["tags"] = string.Join(" ", tags);
+            }
+            if (rating.HasValue)
+            {
+                postData["rating"] = rating.Value.ToString();
+            }
+            if (isPrivate.HasValue)
+            {
+                postData["privacy"] = isPrivate.Value ? "1" : "0";
+            }
+
+            var url = $"/collection/{subjectId}/update";
+            using (var client = new BangumiClient(_oauthProvider))
+            {
+                using (var postContent = new FormUrlEncodedContent(postData))
+                {
+                    var response = await client.PostAsync(url, postContent);
+                    var json = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<SubjectCollectionInfo>(json);
+                }
             }
         }
     }

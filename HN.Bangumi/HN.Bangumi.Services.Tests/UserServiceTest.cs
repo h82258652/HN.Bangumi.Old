@@ -55,11 +55,22 @@ namespace HN.Bangumi.Services.Tests
         }
 
         [Fact]
-        public async Task GetSubjectCollectionInfo()
+        public async Task TestGetSubjectCollectionInfo()
         {
             var userService = new UserService(new TestOAuthProvider());
             var subjectCollectionInfo = await userService.GetSubjectCollectionInfo(218708);
             Assert.NotNull(subjectCollectionInfo);
+        }
+
+        [Fact]
+        public async Task TestUpdateSubjectCollection()
+        {
+            var userService = new UserService(new TestOAuthProvider());
+            var wishResult = await userService.UpdateSubjectCollection(220001, CollectionStatus.Wish);
+            Assert.NotNull(wishResult);
+
+            var doResult = await userService.UpdateSubjectCollection(220001, CollectionStatus.Do);
+            Assert.NotNull(doResult);
         }
     }
 }

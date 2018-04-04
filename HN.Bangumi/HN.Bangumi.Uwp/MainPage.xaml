@@ -13,10 +13,10 @@
                 Style="{StaticResource EpButtonTodayStatusStyle}" />
         <Button HorizontalAlignment="Center"  VerticalAlignment="Center"
                 Content="02" Style="{StaticResource EpButtonAirStatusStyle}"
-                
+
                 Margin="0,120,0,0">
             <Button.Flyout>
-                <Flyout Placement="Bottom" >
+                <Flyout Placement="Bottom">
                     <Flyout.FlyoutPresenterStyle>
                         <Style TargetType="FlyoutPresenter">
                             <Setter Property="Background">

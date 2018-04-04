@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Windows.Security.Credentials;
+﻿using HN.Bangumi.Models;
 using HN.Bangumi.Services;
 using HN.Bangumi.Uwp.Configuration;
 using HN.Bangumi.Uwp.OAuth;
@@ -20,7 +19,8 @@ namespace HN.Bangumi.Uwp
             //Frame.Navigate(typeof(CalendarView));
             var appSettings = new AppSettings();
             //appSettings.ClearAccessToken();
-            var appSettingsAccessToken = appSettings.AccessToken;
+            var userService = new UserService(new UwpOAuthProvider(new AppSettings()));
+            await userService.UpdateSubjectCollection(220001, CollectionStatus.Wish);
         }
     }
 }
