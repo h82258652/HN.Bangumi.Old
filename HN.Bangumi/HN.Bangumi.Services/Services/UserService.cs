@@ -143,5 +143,15 @@ namespace HN.Bangumi.Services
                 return JsonConvert.DeserializeObject<Progress[]>(json);
             }
         }
+
+        public async Task<SubjectCollectionInfo> GetSubjectCollectionInfo(int subjectId)
+        {
+            var url = $"/collection/{subjectId}";
+            using (var client = new BangumiClient(_oauthProvider))
+            {
+                var json = await client.GetStringAsync(url);
+                return JsonConvert.DeserializeObject<SubjectCollectionInfo>(json);
+            }
+        }
     }
 }

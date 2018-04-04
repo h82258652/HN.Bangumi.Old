@@ -7,7 +7,7 @@ namespace HN.Bangumi.Services.Tests
     {
         public Task<string> GetAccessToken()
         {
-            return Task.FromResult("0210cf4e5bd7b5f9d15d8da2cf0c54236e4776ca");
+            return Task.FromResult("ff27e55a664c823219cd54a40d4e6d6e99385da1");
         }
     }
 }

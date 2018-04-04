@@ -53,5 +53,13 @@ namespace HN.Bangumi.Services.Tests
             var userCollections = await userService.GetCollection(200242, CollectionCategory.AllWatching);
             Assert.NotEmpty(userCollections);
         }
+
+        [Fact]
+        public async Task GetSubjectCollectionInfo()
+        {
+            var userService = new UserService(new TestOAuthProvider());
+            var subjectCollectionInfo = await userService.GetSubjectCollectionInfo(218708);
+            Assert.NotNull(subjectCollectionInfo);
+        }
     }
 }
