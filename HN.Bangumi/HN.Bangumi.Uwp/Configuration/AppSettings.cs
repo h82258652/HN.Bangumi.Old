@@ -13,9 +13,15 @@ namespace HN.Bangumi.Uwp.Configuration
             get
             {
                 var passwordVault = new PasswordVault();
-                return passwordVault.RetrieveAll()
-                    .FirstOrDefault(temp => temp.Resource == Constants.BangumiAccessTokenResourceKey && temp.UserName == "access_token")
-                    ?.Password;
+                foreach (var credential in passwordVault.RetrieveAll())
+                {
+                    if (credential.Resource == Constants.BangumiAccessTokenResourceKey && credential.UserName == "access_token")
+                    {
+                        credential.RetrievePassword();
+                        return credential.Password;
+                    }
+                }
+                return null;
             }
         }
 
@@ -26,9 +32,15 @@ namespace HN.Bangumi.Uwp.Configuration
             get
             {
                 var passwordVault = new PasswordVault();
-                return passwordVault.RetrieveAll()
-                    .FirstOrDefault(temp => temp.Resource == Constants.BangumiAccessTokenResourceKey && temp.UserName == "refresh_token")
-                    ?.Password;
+                foreach (var credential in passwordVault.RetrieveAll())
+                {
+                    if (credential.Resource == Constants.BangumiAccessTokenResourceKey && credential.UserName == "refresh_token")
+                    {
+                        credential.RetrievePassword();
+                        return credential.Password;
+                    }
+                }
+                return null;
             }
         }
 
@@ -37,13 +49,16 @@ namespace HN.Bangumi.Uwp.Configuration
             get
             {
                 var passwordVault = new PasswordVault();
-                var userId = passwordVault.RetrieveAll()
-                    .FirstOrDefault(temp => temp.Resource == Constants.BangumiAccessTokenResourceKey && temp.UserName == "user_id")
-                    ?.Password;
-                int value;
-                if (int.TryParse(userId, out value))
+                foreach (var credential in passwordVault.RetrieveAll())
                 {
-                    return value;
+                    if (credential.Resource == Constants.BangumiAccessTokenResourceKey && credential.UserName == "user_id")
+                    {
+                        int userId;
+                        if (int.TryParse(credential.Password, out userId))
+                        {
+                            return userId;
+                        }
+                    }
                 }
                 return null;
             }

@@ -24,7 +24,7 @@ namespace HN.Bangumi.Uwp.OAuth
         public async Task<string> GetAccessToken()
         {
             var accessTokenExpiresOn = _appSettings.AccessTokenExpiresOn;
-            if (accessTokenExpiresOn == null)
+            if (accessTokenExpiresOn == null || _appSettings.AccessToken == null)
             {
                 var authorizeCode = await GetAuthorizeCode();
                 var accessToken = await GetAccessToken(authorizeCode);
@@ -35,7 +35,7 @@ namespace HN.Bangumi.Uwp.OAuth
             }
             else
             {
-                if (accessTokenExpiresOn.Value < DateTimeOffset.UtcNow)
+                if (DateTimeOffset.UtcNow < accessTokenExpiresOn.Value)
                 {
                     return _appSettings.AccessToken;
                 }
