@@ -5,9 +5,9 @@
       xmlns:core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:localControls="using:HN.Bangumi.Uwp.Controls"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:models="using:HN.Bangumi.Models"
-      xmlns:localControls="using:HN.Bangumi.Uwp.Controls"
       x:Name="Root"
       DataContext="{Binding Source={StaticResource Locator}, Path=Calendar}"
       mc:Ignorable="d">
@@ -43,5 +43,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </Pivot>
+        <ProgressRing IsActive="{Binding Path=IsLoading}" />
     </Grid>
 </Page>
