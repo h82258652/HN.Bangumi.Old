@@ -2,8 +2,10 @@
 using Autofac.Extras.CommonServiceLocator;
 using CommonServiceLocator;
 using GalaSoft.MvvmLight.Views;
+using HN.Bangumi.OAuth;
 using HN.Bangumi.Services;
 using HN.Bangumi.Uwp.Configuration;
+using HN.Bangumi.Uwp.OAuth;
 using HN.Bangumi.Uwp.Views;
 
 namespace HN.Bangumi.Uwp.ViewModels
@@ -27,6 +29,8 @@ namespace HN.Bangumi.Uwp.ViewModels
             var containerBuilder = new ContainerBuilder();
 
             containerBuilder.RegisterType<AppSettings>();
+
+            containerBuilder.RegisterType<UwpOAuthProvider>().As<IOAuthProvider>();
 
             containerBuilder.RegisterInstance(CreateNavigationService());
             containerBuilder.RegisterType<UserService>();
