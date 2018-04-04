@@ -66,17 +66,21 @@
                                                     <Style TargetType="FlyoutPresenter">
                                                         <Setter Property="Background">
                                                             <Setter.Value>
-                                                                <AcrylicBrush TintColor="White"
-                                                                              TintOpacity="0.7" />
+                                                                <AcrylicBrush BackgroundSource="Backdrop"
+                                                                              FallbackColor="#80FFFFFF"
+                                                                              TintColor="White"
+                                                                              TintOpacity="0.5" />
                                                             </Setter.Value>
                                                         </Setter>
                                                     </Style>
                                                 </Flyout.FlyoutPresenterStyle>
-                                                <Flyout.Content>
-                                                    <Grid>
-                                                        <TextBlock Text="{Binding Path=ChineseName}" />
-                                                    </Grid>
-                                                </Flyout.Content>
+                                                <Grid>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock><Run Text="中文标题：" /><Run Text="{Binding Path=ChineseName}" /></TextBlock>
+                                                        <TextBlock><Run Text="首播：" /><Run Text="{Binding Path=Airdate}" /></TextBlock>
+                                                        <TextBlock><Run Text="时长：" /><Run Text="{Binding Path=Duration}" /></TextBlock>
+                                                    </StackPanel>
+                                                </Grid>
                                             </Flyout>
                                         </Button.Flyout>
                                     </Button>

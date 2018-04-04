@@ -11,5 +11,35 @@
                 Click="ButtonBase_OnClick"
                 Content="01"
                 Style="{StaticResource EpButtonTodayStatusStyle}" />
+        <Button HorizontalAlignment="Center"  VerticalAlignment="Center"
+                Content="02" Style="{StaticResource EpButtonAirStatusStyle}"
+                
+                Margin="0,120,0,0">
+            <Button.Flyout>
+                <Flyout Placement="Bottom" >
+                    <Flyout.FlyoutPresenterStyle>
+                        <Style TargetType="FlyoutPresenter">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <AcrylicBrush BackgroundSource="Backdrop"
+                                                  TintColor="White"
+                                                  TintOpacity="0.5"
+                                                  FallbackColor="#80FFFFFF"
+                                                  ></AcrylicBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Flyout.FlyoutPresenterStyle>
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="A"></Button>
+                            <Button Content="B"></Button>
+                            <Button Content="C"></Button>
+                            <Button Content="D"></Button>
+                        </StackPanel>
+                    </Grid>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
     </Grid>
 </Page>
