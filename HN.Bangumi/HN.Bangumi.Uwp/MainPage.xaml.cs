@@ -16,11 +16,11 @@ namespace HN.Bangumi.Uwp
 
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            //Frame.Navigate(typeof(CalendarView));
-            var appSettings = new AppSettings();
-            //appSettings.ClearAccessToken();
-            var userService = new UserService(new UwpOAuthProvider(new AppSettings()));
-            await userService.UpdateSubjectCollection(220001, CollectionStatus.Wish);
+            Frame.Navigate(typeof(Views.CalendarView));
+            //var appSettings = new AppSettings();
+            ////appSettings.ClearAccessToken();
+            //var userService = new UserService(new UwpOAuthProvider(new AppSettings()));
+            //await userService.UpdateSubjectCollection(220001, CollectionStatus.Wish);
         }
     }
 }

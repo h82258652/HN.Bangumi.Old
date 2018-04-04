@@ -37,6 +37,16 @@ namespace HN.Bangumi.Uwp.ViewModels
             private set => Set(ref _isLoading, value);
         }
 
+        public int SelectedCalendarIndex
+        {
+            get
+            {
+                // TODO not used now.
+                var today = DateTime.Now.DayOfWeek;
+                return (int)today % 7;
+            }
+        }
+
         public RelayCommand<Subject> SubjectClickCommand
         {
             get
