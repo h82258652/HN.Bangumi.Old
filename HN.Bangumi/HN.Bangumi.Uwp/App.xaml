@@ -8,6 +8,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/EpButtonStyle.xaml" />
+                <ResourceDictionary Source="/Styles/EpButtonAirStatusStyle.xaml" />
                 <ResourceDictionary Source="/Styles/EpButtonTodayStatusStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:ItemClickEventArgsConverter x:Key="ItemClickEventArgsConverter" />
