@@ -9,7 +9,7 @@ namespace HN.Bangumi.Services.Tests
         public async Task TestGet()
         {
             var calendarService = new CalendarService();
-            var calendar = await calendarService.Get();
+            var calendar = await calendarService.GetAsync();
             Assert.Equal(7, calendar.Length);
         }
     }

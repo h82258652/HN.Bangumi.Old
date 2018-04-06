@@ -7,7 +7,7 @@ namespace HN.Bangumi.Services
 {
     public class CalendarService
     {
-        public async Task<Calendar[]> Get()
+        public async Task<Calendar[]> GetAsync()
         {
             using (var client = new BangumiClient())
             {

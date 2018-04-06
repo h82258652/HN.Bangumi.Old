@@ -75,7 +75,7 @@ namespace HN.Bangumi.Uwp.ViewModels
                 IsLoading = true;
                 await policy.Execute(async () =>
                 {
-                    Calendars = await _calendarService.Get();
+                    Calendars = await _calendarService.GetAsync();
                 });
             }
             finally
